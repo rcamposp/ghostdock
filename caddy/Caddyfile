@@ -1,0 +1,8 @@
+localhost {  
+    proxy / ghost:2368 {
+        header_upstream Host {host}
+        header_upstream X-Real-IP {remote}
+        header_upstream X-Forwarded-Proto {scheme}
+    }
+    tls ricardocamposp@gmail.com
+}   

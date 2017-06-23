@@ -1,0 +1,32 @@
+version: '2'
+
+services:
+
+### Ghost Server Container ##################################
+
+    ghost:
+        image: ghost
+        expose:
+          - "2368"
+        volumes:
+          - ./ghost:/var/lib/ghost
+        environment:
+          NODE_ENV: development
+
+### Caddy Server Container ##################################
+
+    caddy:
+        image: abiosoft/caddy
+        ports:
+            - "80:80"
+            - "443:443"            
+        volumes:
+            #Local
+            - ./caddy/Caddyfile.local:/etc/Caddyfile
+            #SSL
+            #- ./caddy/Caddyfile:/etc/Caddyfile
+            - ./caddy/.caddy:/root/.caddy
+            - ./logs/caddy:/var/log/caddy
+        links:
+            - ghost
+        
