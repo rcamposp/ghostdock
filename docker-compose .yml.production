@@ -11,11 +11,10 @@ services:
         volumes:
           - ./ghost:/var/lib/ghost
         environment:                        
-            NODE_ENV: development
-            GHOST_URL: http://localhost
+            NODE_ENV: production
+            GHOST_URL: https://example.com
             MAIL_FROM: '"Webmaster" <bob@example.com>'
             MAIL_HOST: mail.example.com
-                    
 
 ### Caddy Server Container ##################################
 
@@ -24,12 +23,13 @@ services:
         ports:
             - "80:80"
             - "443:443"
-        volumes:            
-            - ./caddy/Caddyfile.development:/etc/Caddyfile            
+        volumes:                        
+            - ./caddy/Caddyfile:/etc/Caddyfile
             - ./caddy/.certs:/etc/caddycerts
             - ./logs/caddy:/var/log/caddy
         links:
             - ghost
         environment:
             CADDYPATH: /etc/caddycerts
-            GHOST_URL: http://localhost
+            GHOST_URL: https://example.com
+            EMAIL: bob@example.com
